@@ -1,0 +1,131 @@
+-
+  card_key: 'owl'
+  score: 0
+  lang:
+    no:
+      name: 'Owl'
+      text: ''
+    en:
+      name: 'Owl'
+      text: 'At Game end, choose 1 type of card. This card becomes a card of that type. This card does not score.'
+    ja:
+      name: 'フクロウ'
+      text: 'ゲーム終了時、任意のカードに変わる。このカードは得点にならない'
+
+-
+  card_key: 'sheep'
+  score: 1
+  lang:
+    no:
+      name: 'Sheep'
+    en:
+      name: 'Sheep'
+      text: 'This card''s score is +2 for each Sheep directly adjacent to it.'
+    ja:
+      name: 'ヒツジ'
+      text: '隣に並ぶヒツジ1枚につき2点を得る'
+
+-
+  card_key: 'chick'
+  score: 0
+  lang:
+    no:
+      name: 'Chick'
+    en:
+      name: 'Chick'
+      text: 'No power.'
+    ja:
+      name: 'ヒヨコ'
+      text: '能力を持たない'
+
+-
+  card_key: 'dog'
+  score: 2
+  lang:
+    no:
+      name: 'Dog'
+    en:
+      name: 'Dog'
+      text: 'This card''s score is +1 for each wolf in your row.'
+    ja:
+      name: 'イヌ'
+      text: '相手のオオカミ1枚につき1点を得る'
+
+-
+  card_key: 'fox'
+  score: 0
+  lang:
+    no:
+      name: 'Fox'
+    en:
+      name: 'Fox'
+      text: 'When this card is revealed, you may choose one card from your opponent''s line and swap it with their revealed card.
+  '
+    ja:
+      name: 'キツネ'
+      text: 'プレイしたとき相手のカード1枚を対戦相手がプレイしたカードと入れ替える'
+
+-
+  card_key: 'cat'
+  score: 3
+  lang:
+    no:
+      name: 'Cat'
+    en:
+      name: 'Cat'
+      text: 'When this card is revealed, swap this card with your opponent''s revealed card.'
+    ja:
+      name: 'ネコ'
+      text: 'プレイしたとき対戦相手がプレイしたカードとこのカードを入れ替える'
+
+-
+  card_key: 'rat'
+  score: 2
+  lang:
+    no:
+      name: 'Rat'
+    en:
+      name: 'Rat'
+      text: 'This card is not effected by the Elephant''s power.'
+    ja:
+      name: 'ネズミ'
+      text: 'このカードはゾウの効果に影響を受けない'
+
+-
+  card_key: 'chicken'
+  score: 0
+  lang:
+    no:
+      name: 'Chicken'
+    en:
+      name: 'Chicken'
+      text: 'This card''s score is +2 for each chick in your row.'
+    ja:
+      name: 'ニワトリ'
+      text: '自分のヒヨコ1枚につき2点を得る'
+
+-
+  card_key: 'wolf'
+  score: 0
+  lang:
+    no:
+      name: 'Wolf'
+    en:
+      name: 'Wolf'
+      text: 'When this card is revealed, if your opponent''s card is a sheep or rat, they discard it, and this card''s score is +1.'
+    ja:
+      name: 'オオカミ'
+      text: '対戦相手がプレイしたカードがヒツジかネズミなら、それを捨て札にして1点を得る'
+
+-
+  card_key: 'elephant'
+  score: 0
+  lang:
+    no:
+      name: 'Elephant'
+    en:
+      name: 'Elephant'
+      text: 'The neighbours to this card don''t score.'
+    ja:
+      name: 'ゾウ'
+      text: '隣に並ぶカードは得点とならない'
