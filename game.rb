@@ -10,7 +10,7 @@ class Card
   attr :card_key, :name, :text, :score, :color
   INDENT = ' ' * 5
 
-  def initialize(card_key, lang=:en)
+  def initialize(card_key, lang=:ja)
     @card_key = card_key
     card = GAME_DATA.cards[card_key]
     @name = card.lang[lang].name
@@ -96,12 +96,10 @@ class Game
     seq.each do |player_pile, ai_pile|
       player_draft(player_pile)
       ai_draft(ai_pile)
-      @ui.layout_game
     end
     @player_hand.size.times do
       player_cardplay
       ai_cardplay
-      @ui.layout_game
     end
   end
 
@@ -135,6 +133,9 @@ class Game
     @ai_cards << @ai_hand.shift
   end
 
+  def process_cardplay(card, opponent_card)
+  end
+
   def set_piles
 # ドラフト用にカード束を四つ作る。(プレイヤー2人 * 2ラウンド)
     deck = []
@@ -166,6 +167,7 @@ class GameUI
 
   def print_layout_hand
     puts "Picked #{@game.player_hand.map(&:name_layout).join(' ')}"
+    puts ""
   end
 
   def print_layout_table
@@ -177,12 +179,13 @@ class GameUI
   end
 
   def select_card_cli(pile, description)
+    clear_screen
+    layout_game
     choice = TTY::Prompt.new.select(description) do |menu|
       pile.each_with_index do |card, index|
         menu.choice card.layout, {index_num: index}
       end
     end
-    clear_screen
     choice
   end
 
