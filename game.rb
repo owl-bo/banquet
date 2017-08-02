@@ -8,11 +8,11 @@ PASTEL = Pastel.new
 
 class Card
   attr :card_key, :name, :text, :score, :color
+  attr_accessor :effected
   INDENT = ' ' * 5
 
   def initialize(card_key, lang=:en)
     @card_key = card_key
-    @message = ""
     card = GAME_DATA.cards[card_key]
     @name = card.lang[lang].name
     @text = card.lang[lang].text
@@ -80,6 +80,7 @@ class Game
   attr :player_hand, :ai_hand, :player_cards, :ai_cards, :message
 
   def initialize
+    @message = ""
     @player_cards = []
     @ai_cards = []
     @ui = GameUI.new self
@@ -91,6 +92,7 @@ class Game
     set_piles(lang)
     2.times { play_round }
     score = GameScore.new(player_cards, ai_cards)
+    @ui.layout_game
     puts score.inspect
   end
 
@@ -103,7 +105,6 @@ class Game
     end
     @player_hand.size.times do
       player_cardplay
-      ai_cardplay
     end
   end
 
@@ -129,15 +130,37 @@ class Game
 
   def player_cardplay
     pick = @ui.select_card_cli(@player_hand, 'Select a card to play.')
-    @player_cards << @player_hand.slice!(pick[:index_num])
+    card = @player_hand.slice!(pick[:index_num])
+    ai_card = ai_cardplay
+    card, ai_card = process_cardplay(card, ai_card)
+    ai_card, card = process_cardplay(ai_card, card)
+    @player_cards << card unless card.nil?
+    @ai_cards << ai_card unless ai_card.nil?
   end
 
   def ai_cardplay
     @ai_hand.shuffle!
-    @ai_cards << @ai_hand.shift
+    @ai_hand.shift
   end
 
   def process_cardplay(card, opponent_card)
+    return card, opponent_card if [card, opponent_card].any?(&:nil?)
+    case card.card_key
+    when 'wolf'
+      if %w(sheep rat owl).include?(opponent_card.card_key)
+        opponent_card = nil
+        @message = 'Wolf ate poor animal.'
+      end
+    when 'cat'
+      unless card.effected
+        card.effected = true
+        card, opponent_card = opponent_card, card
+        @message = 'Cat has exchanged.'
+      end
+    when 'fox'
+      # キツネの効果〜
+    end
+    [card, opponent_card]
   end
 
   def set_piles(lang)
@@ -161,7 +184,7 @@ class GameUI
   def show_title
     clear_screen
     puts TITLE_DATA
-    lang = TTY::Prompt.new.select("Choose language.", %w(ja en no))
+    lang = TTY::Prompt.new.select("Choose language.", %w(ja en))
     clear_screen
     lang
   end
@@ -184,7 +207,6 @@ class GameUI
   end
 
   def select_card_cli(pile, description)
-    clear_screen
     layout_game
     choice = TTY::Prompt.new.select(description) do |menu|
       pile.each_with_index do |card, index|
@@ -195,10 +217,11 @@ class GameUI
   end
 
   def layout_game
+    clear_screen
     print_layout_table
     puts ""
     print_layout_hand
-    puts "Log: #{@game.message}"
+    puts "Log: #{PASTEL.red(@game.message)}"
     puts ""
   end
 end
