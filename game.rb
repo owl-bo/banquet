@@ -10,8 +10,9 @@ class Card
   attr :card_key, :name, :text, :score, :color
   INDENT = ' ' * 5
 
-  def initialize(card_key, lang=:ja)
+  def initialize(card_key, lang=:en)
     @card_key = card_key
+    @message = ""
     card = GAME_DATA.cards[card_key]
     @name = card.lang[lang].name
     @text = card.lang[lang].text
@@ -76,16 +77,19 @@ class GameScore
 end
 
 class Game
-  attr :player_hand, :ai_hand, :player_cards, :ai_cards
+  attr :player_hand, :ai_hand, :player_cards, :ai_cards, :message
 
   def initialize
     @player_cards = []
     @ai_cards = []
     @ui = GameUI.new self
-    @ui.show_title
-    set_piles
-    play_round
-    play_round
+    process_game
+  end
+
+  def process_game
+    lang = @ui.show_title
+    set_piles(lang)
+    2.times { play_round }
     score = GameScore.new(player_cards, ai_cards)
     puts score.inspect
   end
@@ -136,12 +140,12 @@ class Game
   def process_cardplay(card, opponent_card)
   end
 
-  def set_piles
+  def set_piles(lang)
 # ドラフト用にカード束を四つ作る。(プレイヤー2人 * 2ラウンド)
     deck = []
     GAME_DATA.cards.keys.each do |key|
       GAME_DATA.cards[key].num.times do
-        deck << Card.new(key)
+        deck << Card.new(key, lang)
       end
     end
     @draft_piles = deck.shuffle.each_slice(deck.count/4).to_a
@@ -157,8 +161,9 @@ class GameUI
   def show_title
     clear_screen
     puts TITLE_DATA
-    TTY::Prompt.new.yes?('INSERT a coin.')
+    lang = TTY::Prompt.new.select("Choose language.", %w(ja en no))
     clear_screen
+    lang
   end
 
   def clear_screen
@@ -166,7 +171,7 @@ class GameUI
   end
 
   def print_layout_hand
-    puts "Picked #{@game.player_hand.map(&:name_layout).join(' ')}"
+    puts "[Hand] #{@game.player_hand.map(&:name_layout).join(' ')}"
     puts ""
   end
 
@@ -193,6 +198,8 @@ class GameUI
     print_layout_table
     puts ""
     print_layout_hand
+    puts "Log: #{@game.message}"
+    puts ""
   end
 end
 
