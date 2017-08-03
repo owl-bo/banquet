@@ -7,8 +7,8 @@ TITLE_DATA = File.read File.join(ROOT_PATH, '/title.txt')
 PASTEL = Pastel.new
 
 class Card
-  attr :card_key, :name, :text, :score, :color
-  attr_accessor :effected
+  attr :card_key, :name, :text, :color
+  attr_accessor :effected, :score
   INDENT = ' ' * 5
 
   def initialize(card_key, lang=:en)
@@ -149,6 +149,7 @@ class Game
     when 'wolf'
       if %w(sheep rat owl).include?(opponent_card.card_key)
         opponent_card = nil
+        card.score += 2
         @message = 'Wolf ate poor animal.'
       end
     when 'cat'
