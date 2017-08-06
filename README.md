@@ -12,7 +12,7 @@ Banquet is  a small and speedy cardgame. This repository has playable on cli cod
 
 ```shell
 $ cd ./your_download_repository_dir/
-& gem install bundler (unless you have installed bundler-gem)
+$ gem install bundler (unless you have installed bundler-gem)
 $ bundle install
 $ ruby main.rb
 ```
