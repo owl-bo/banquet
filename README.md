@@ -5,7 +5,7 @@ Banquet is  a small and speedy cardgame. This repository has playable on cli cod
 バンケットはゲームマーケット2013で出版された小さくて手軽なカードゲームです。このレポジトリはこのカードゲームをテキストベースのコンソール上で遊ぶことが出来るプログラムです。
 
 
-![enter image description here](https://cdn-ak2.f.st-hatena.com/images/fotolife/o/oneforowl/20170806/20170806142555.png)
+![enter image description here](https://cdn-ak2.f.st-hatena.com/images/fotolife/o/oneforowl/20170807/20170807223331.gif)
 
 
 ## Usage/利用法
